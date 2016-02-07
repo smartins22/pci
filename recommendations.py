@@ -175,3 +175,19 @@ def getRecommendedItems(prefs,itemMatch,user):
 	rankings.reverse()
 	return rankings
 
+#read the movielens bd
+def loadMovieLens(path='ml-100k/'):
+	#get movies titles
+	movies={}
+	for line in open(path+'u.item'):
+		(id,title)=line.split('|')[0:2]
+		movies[id]=title
+
+	#load data
+	prefs={}
+	for line in open(path+'u.data'):
+		(user,movieid,rating,ts)=line.split('\t')
+		prefs.setdefault(user,{})
+		prefs[user][movies[movieid]]=float(rating)
+	return prefs
+	
